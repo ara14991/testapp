@@ -1,19 +1,13 @@
 package com.example.hiii;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
 
 import org.opencv.android.OpenCVLoader;
-import org.opencv.android.Utils;
-import org.opencv.core.Mat;
-import org.opencv.imgproc.Imgproc;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.util.Log;
 import android.widget.ImageView;
 
@@ -42,40 +36,18 @@ public class MainActivity extends Activity {
 
 		setContentView(R.layout.activity_main);
 		
+		String path = "file://mnt/sdcard/Pictures/pic2.jpg";
+		//Brightness brightener = new Brightness(this.getApplicationContext(),Uri.parse(path));
+		//Uri ppimage = brightener.Brighten(80);
 		
-		Mat src = new Mat();
-		Mat dst = new Mat();
+		Smoothing smoother = new Smoothing(this.getApplicationContext(), Uri.parse(path));
+		Uri ppimage = smoother.BilateralFilter();
 		
-
-		try {
-			myimage = MediaStore.Images.Media.getBitmap(
-					this.getContentResolver(),Uri.parse("file://mnt/sdcard/Pictures/card2new.jpg"));
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			Log.v(TAG, "NULL");
-			e.printStackTrace();
-		}
-		
-		
-		Log.v(TAG, "not screwed");
-		Log.v(TAG, "Myimage Size:" + myimage.getByteCount());
-		
-		ppimage=myimage;
-		
-		Utils.bitmapToMat(myimage, src);
-		Log.v(TAG, "not screwed1");
-		Imgproc.cvtColor(src, dst, Imgproc.COLOR_RGB2GRAY, 0);
-		Mat dst1 = Mat.zeros(dst.size(), dst.type());
-		dst.convertTo(dst1, -1, alpha, beta);
-		//Imgproc.equalizeHist(dst1, dst1);
-		Log.v(TAG, "not screwed2");
-		Utils.matToBitmap(dst1, ppimage);
-		
-		Log.v(TAG, "PPimage Size:" + ppimage.getByteCount());
+		ImageView imageView2 = (ImageView) findViewById(R.id.imgView2);
+		imageView2.setImageURI(Uri.parse(path));
 		
 		ImageView imageView = (ImageView) findViewById(R.id.imgView);
-		imageView.setImageBitmap(ppimage);
+		imageView.setImageURI(ppimage);
 	}
 	
 }
