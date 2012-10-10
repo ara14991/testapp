@@ -67,7 +67,7 @@ public class MainActivity extends Activity {
 		Log.v(TAG, "not screwed1");
 		Imgproc.cvtColor(src, dst, Imgproc.COLOR_RGB2GRAY, 0);
 		Mat dst1 = Mat.zeros(dst.size(), dst.type());
-		dst1.convertTo(dst1, -1, alpha, beta);
+		dst.convertTo(dst1, -1, alpha, beta);
 		//Imgproc.equalizeHist(dst1, dst1);
 		Log.v(TAG, "not screwed2");
 		Utils.matToBitmap(dst1, ppimage);
